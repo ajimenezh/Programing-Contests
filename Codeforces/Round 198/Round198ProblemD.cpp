@@ -22,21 +22,18 @@ using namespace std;
 #define pb(x) push_back(x)
 #define pii pair<int,int>
 
-int n,m,c;
+int n;
+int v[100010];
+int sum[100010];
+int bit[100010];
 
-int par[100010];
-
-int get(int a) {
-    if (a==par[a]) return a;
-    par[a] = get(par[a]);
-    return par[a];
+int get(int i) {
+    int x = 0;
+    for (;i>=1; i-=i&-i) x = max(x, bit[i]);
+    return x;
 }
-
-void connect(int a, int b) {
-    a = get(a);
-    b = get(b);
-    if (a==b) return;
-    par[a] = b;
+void update (int i, int x) {
+    for (;i<=n; i+=i&-i) bit[i] = max(bit[i],x);
 }
 
 int main() {
@@ -44,21 +41,16 @@ int main() {
     //freopen("input.txt","r",stdin);
     //freopen("output.txt","w",stdout);
 
-    cin>>n>>m>>c;
-    for (int i=0; i<n; i++) par[i] = i;
-    for (int i=0; i<m; i++) {
-        int a,b;
-        scanf("%d%d",&a,&b);
-        connect(a-1,b-1);
-    }
-    int cnt = 0;
-    for (int i=0; i<n; i++) if (par[i]==i) cnt++;
-    for (int i=0; i<c; i++) {
-        int a,b;
-        scanf("%d%d",&a,&b);
-    }
+    cin>>n;
+    for (int i=0; i<n; i++) scanf("%d",v+i);
 
-    cout<<cnt-1;
+    int ans = 0;
+    for (int i=0; i<n; i++) {
+        sum[i] = get(v[i]-1) + 1;
+        update(v[i], sum[i]);
+        ans = max(ans,sum[i]);
+    }
+    cout<<ans<<endl;
 
     return 0;
 

@@ -22,21 +22,17 @@ using namespace std;
 #define pb(x) push_back(x)
 #define pii pair<int,int>
 
-int n,m,c;
-
-int par[100010];
-
-int get(int a) {
-    if (a==par[a]) return a;
-    par[a] = get(par[a]);
-    return par[a];
+long long gcd(long long a, long long b) {
+    if (b>a) return gcd(b,a);
+    if (b==0) return a;
+    return gcd(b,a%b);
 }
 
-void connect(int a, int b) {
-    a = get(a);
-    b = get(b);
-    if (a==b) return;
-    par[a] = b;
+long long solve(long long a, long long b) {
+    if (a==0 || b==0) return 0;
+    long long g = gcd(a,b);
+    a /= g; b /= g;
+    return a/b + solve(b-a%b,a%b) + 1;
 }
 
 int main() {
@@ -44,21 +40,9 @@ int main() {
     //freopen("input.txt","r",stdin);
     //freopen("output.txt","w",stdout);
 
-    cin>>n>>m>>c;
-    for (int i=0; i<n; i++) par[i] = i;
-    for (int i=0; i<m; i++) {
-        int a,b;
-        scanf("%d%d",&a,&b);
-        connect(a-1,b-1);
-    }
-    int cnt = 0;
-    for (int i=0; i<n; i++) if (par[i]==i) cnt++;
-    for (int i=0; i<c; i++) {
-        int a,b;
-        scanf("%d%d",&a,&b);
-    }
-
-    cout<<cnt-1;
+    long long a,b;
+    cin>>a>>b;
+    cout<<solve(a,b)-1;
 
     return 0;
 

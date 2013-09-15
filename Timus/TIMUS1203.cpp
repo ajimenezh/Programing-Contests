@@ -22,21 +22,17 @@ using namespace std;
 #define pb(x) push_back(x)
 #define pii pair<int,int>
 
-int n,m,c;
-
-int par[100010];
-
-int get(int a) {
-    if (a==par[a]) return a;
-    par[a] = get(par[a]);
-    return par[a];
+int n;
+pair<int,int> v[100010];
+int s[30010];
+void update(int i, int x) {
+    for (;i<=30000; i+=i&-i) s[i] = max(s[i],x);
 }
-
-void connect(int a, int b) {
-    a = get(a);
-    b = get(b);
-    if (a==b) return;
-    par[a] = b;
+int get(int i) {
+    if (i<1) return 0;
+    int x = 0;
+    for (;i>=1; i-=i&-i) x = max(x,s[i]);
+    return x;
 }
 
 int main() {
@@ -44,21 +40,20 @@ int main() {
     //freopen("input.txt","r",stdin);
     //freopen("output.txt","w",stdout);
 
-    cin>>n>>m>>c;
-    for (int i=0; i<n; i++) par[i] = i;
-    for (int i=0; i<m; i++) {
+    cin>>n;
+    for (int i=0; i<n; i++) {
         int a,b;
-        scanf("%d%d",&a,&b);
-        connect(a-1,b-1);
+        scanf("%d%d",&v[i].first,&v[i].second);
     }
-    int cnt = 0;
-    for (int i=0; i<n; i++) if (par[i]==i) cnt++;
-    for (int i=0; i<c; i++) {
-        int a,b;
-        scanf("%d%d",&a,&b);
-    }
+    sort(v,v+n);
 
-    cout<<cnt-1;
+    int ans = 0;
+    for (int i=0; i<n; i++) {
+        int tmp = get(v[i].first-1) + 1;
+        ans = max(ans,tmp);
+        update(v[i].second,tmp);
+    }
+    cout<<ans<<endl;
 
     return 0;
 

@@ -22,21 +22,17 @@ using namespace std;
 #define pb(x) push_back(x)
 #define pii pair<int,int>
 
-int n,m,c;
+long long dp[10][90];
+int solve(int d, int sum) {
+    if (sum==0) return 1;
+    if (d==0) return 0;
+    if (sum<0) return 0;
+    if (dp[d][sum]>=0) return dp[d][sum];
 
-int par[100010];
-
-int get(int a) {
-    if (a==par[a]) return a;
-    par[a] = get(par[a]);
-    return par[a];
-}
-
-void connect(int a, int b) {
-    a = get(a);
-    b = get(b);
-    if (a==b) return;
-    par[a] = b;
+    int tmp = 0;
+    for (int i=0; i<10; i++) tmp += solve(d-1,sum-i);
+    dp[d][sum] = tmp;
+    return tmp;
 }
 
 int main() {
@@ -44,21 +40,11 @@ int main() {
     //freopen("input.txt","r",stdin);
     //freopen("output.txt","w",stdout);
 
-    cin>>n>>m>>c;
-    for (int i=0; i<n; i++) par[i] = i;
-    for (int i=0; i<m; i++) {
-        int a,b;
-        scanf("%d%d",&a,&b);
-        connect(a-1,b-1);
-    }
-    int cnt = 0;
-    for (int i=0; i<n; i++) if (par[i]==i) cnt++;
-    for (int i=0; i<c; i++) {
-        int a,b;
-        scanf("%d%d",&a,&b);
-    }
-
-    cout<<cnt-1;
+    int s;
+    for (int i=0; i<10; i++) for (int j=0; j<82; j++) dp[i][j] = -1;
+    cin>>s;
+    if (s==1) cout<<10<<endl;
+    else cout<<solve(9,s);
 
     return 0;
 

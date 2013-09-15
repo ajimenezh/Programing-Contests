@@ -22,21 +22,20 @@ using namespace std;
 #define pb(x) push_back(x)
 #define pii pair<int,int>
 
-int n,m,c;
+int n;
+long long dp[60][60];
 
-int par[100010];
+long long solve(int k, int last) {
+    if (k==n) return 1;
+    if (k>n) return 0;
+    if (dp[k][last]>=0) return dp[k][last];
 
-int get(int a) {
-    if (a==par[a]) return a;
-    par[a] = get(par[a]);
-    return par[a];
-}
+    long long tmp = 1;
+    if (k+1-last<=2) tmp += solve(k+1,k+1);
+    if (k+2-last<=2) tmp += solve(k+3,k+1);
 
-void connect(int a, int b) {
-    a = get(a);
-    b = get(b);
-    if (a==b) return;
-    par[a] = b;
+    dp[k][last] = tmp;
+    return tmp;
 }
 
 int main() {
@@ -44,21 +43,9 @@ int main() {
     //freopen("input.txt","r",stdin);
     //freopen("output.txt","w",stdout);
 
-    cin>>n>>m>>c;
-    for (int i=0; i<n; i++) par[i] = i;
-    for (int i=0; i<m; i++) {
-        int a,b;
-        scanf("%d%d",&a,&b);
-        connect(a-1,b-1);
-    }
-    int cnt = 0;
-    for (int i=0; i<n; i++) if (par[i]==i) cnt++;
-    for (int i=0; i<c; i++) {
-        int a,b;
-        scanf("%d%d",&a,&b);
-    }
-
-    cout<<cnt-1;
+    cin>>n;
+    for (int i=0; i<=n; i++) for (int j=0; j<=n; j++) dp[i][j] = -1;
+    cout<<solve(1,1)+(n>=5?1:0)<<endl;
 
     return 0;
 

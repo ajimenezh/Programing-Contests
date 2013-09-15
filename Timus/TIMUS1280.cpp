@@ -22,43 +22,35 @@ using namespace std;
 #define pb(x) push_back(x)
 #define pii pair<int,int>
 
-int n,m,c;
-
-int par[100010];
-
-int get(int a) {
-    if (a==par[a]) return a;
-    par[a] = get(par[a]);
-    return par[a];
-}
-
-void connect(int a, int b) {
-    a = get(a);
-    b = get(b);
-    if (a==b) return;
-    par[a] = b;
-}
+int n,m;
+set<int> r[1100];
+vector<int> e[1100];
 
 int main() {
 
     //freopen("input.txt","r",stdin);
     //freopen("output.txt","w",stdout);
 
-    cin>>n>>m>>c;
-    for (int i=0; i<n; i++) par[i] = i;
+    cin>>n>>m;
     for (int i=0; i<m; i++) {
         int a,b;
         scanf("%d%d",&a,&b);
-        connect(a-1,b-1);
+        e[a].push_back(b);
+        r[b].insert(a);
     }
-    int cnt = 0;
-    for (int i=0; i<n; i++) if (par[i]==i) cnt++;
-    for (int i=0; i<c; i++) {
-        int a,b;
-        scanf("%d%d",&a,&b);
+    bool good = 1;
+    for (int i=0; i<n; i++) {
+        int a;
+        scanf("%d",&a);
+        if (r[a].size()!=0) good = 0;
+        else {
+            for (int j=0; j<e[a].size(); j++) {
+                r[e[a][j]].erase(a);
+            }
+        }
     }
 
-    cout<<cnt-1;
+    cout<<(good?"YES":"NO")<<endl;
 
     return 0;
 

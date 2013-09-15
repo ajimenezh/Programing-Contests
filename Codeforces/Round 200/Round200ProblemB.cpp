@@ -13,6 +13,7 @@
 #include <ctime>
 #include <cstdio>
 #include <stdio.h>
+#include <stack>
 
 using namespace std;
 
@@ -22,43 +23,30 @@ using namespace std;
 #define pb(x) push_back(x)
 #define pii pair<int,int>
 
-int n,m,c;
-
-int par[100010];
-
-int get(int a) {
-    if (a==par[a]) return a;
-    par[a] = get(par[a]);
-    return par[a];
-}
-
-void connect(int a, int b) {
-    a = get(a);
-    b = get(b);
-    if (a==b) return;
-    par[a] = b;
-}
+string s;
+stack<int> st;
 
 int main() {
 
     //freopen("input.txt","r",stdin);
     //freopen("output.txt","w",stdout);
 
-    cin>>n>>m>>c;
-    for (int i=0; i<n; i++) par[i] = i;
-    for (int i=0; i<m; i++) {
-        int a,b;
-        scanf("%d%d",&a,&b);
-        connect(a-1,b-1);
-    }
-    int cnt = 0;
-    for (int i=0; i<n; i++) if (par[i]==i) cnt++;
-    for (int i=0; i<c; i++) {
-        int a,b;
-        scanf("%d%d",&a,&b);
-    }
+    cin>>s;
+    int n = s.length();
 
-    cout<<cnt-1;
+    if (s.length()%2!=0 || s=="+-" || s=="-+") cout<<"No"<<endl;
+    else if (s.length()==2) cout<<"Yes";
+    else {
+        for (int i=0; i<n; i++) {
+            int t;
+            if (s[i]=='+') t = 1;
+            else t = -1;
+            if (st.size()>0 && st.top()==t) st.pop();
+            else st.push(t);
+        }
+        if (st.size()==0) cout<<"Yes";
+        else cout<<"No"<<endl;
+    }
 
     return 0;
 
