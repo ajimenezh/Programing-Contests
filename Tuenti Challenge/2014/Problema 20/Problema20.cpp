@@ -60,12 +60,12 @@ int main() {
         p[i] = (v[i] - s) / m[i][i];
 	}
 
-    int den = (1.0/p[7]+0.01);
+    long long den = (1.0/p[7]+0.01);
 	for (int i=0; i<8; i++) w[i] = p[i]/p[7] + 0.01;
 
     while (cin>>n) {
-		int tmp = n-6;
-		int t = 0;
+		long long tmp = n-6;
+		long long t = 0;
 		for (int i=0; i<8; i++) {
             t += (tmp*w[i])%mod;
             t %= mod;

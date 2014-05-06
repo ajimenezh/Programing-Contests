@@ -60,14 +60,7 @@ int main() {
             vis.erase(make_pair(y[t]-r[t], t));
         }
         else {
-            set<pair<int,int> >::iterator it = vis.lower_bound(make_pair(y[t]-r[t], -1));
-            while ((*it).first>=y[t]-r[t]-1000) {
-                if (check((*it).second, t)) tot++;
-                if (it==vis.begin()) break;
-                it--;
-            }
-            it = vis.lower_bound(make_pair(y[t]-r[t], -1));
-            if (it!=vis.end()) it++;
+            set<pair<int,int> >::iterator it = vis.lower_bound(make_pair(y[t]-r[t]-100, -1));
             while (it!=vis.end() && y[t]+r[t]>=(*it).first) {
                 if (check((*it).second, t)) tot++;
                 it++;
