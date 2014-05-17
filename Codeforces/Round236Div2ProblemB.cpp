@@ -1,0 +1,67 @@
+#include <iostream>
+#include <sstream>
+#include <vector>
+#include <string>
+#include <algorithm>
+#include <utility>
+#include <set>
+#include <map>
+#include <deque>
+#include <queue>
+#include <cmath>
+#include <cstdlib>
+#include <ctime>
+#include <cstdio>
+#include <stdio.h>
+
+using namespace std;
+
+#define fo(i,n) for(int i=0; i<(int)n; i++)
+#define rep(it,s) for(__typeof((s).begin()) it=(s).begin();it!=(s).end();it++)
+#define mp(a,b) make_pair(a,b)
+#define pb(x) push_back(x)
+#define pii pair<int,int>
+
+int a[1001];
+
+int main() {
+
+    //freopen("input.txt","r",stdin);
+    //freopen("output.txt","w",stdout);
+
+    int n,k;
+    cin>>n>>k;
+    for (int i=0; i<n; i++) cin>>a[i];
+
+    int res = 10000;
+    int p = 0;
+    for (int i=0; i<=2000; i++) {
+        int tmp = i;
+        int tot = 0;
+        for (int j=0; j<n; j++) {
+            if (a[j]!=tmp) tot++;
+            tmp += k;
+        }
+        if (res>tot) {
+            res = min(res, tot);
+            p = i;
+        }
+    }
+    cout<<res<<endl;
+
+    int tmp = p;
+    for (int j=0; j<n; j++) {
+        if (a[j]!=tmp) {
+            if (a[j]>tmp) {
+                printf("- %d %d\n", j+1, a[j]-tmp);
+            }
+            else {
+                printf("+ %d %d\n", j+1, tmp-a[j]);
+            }
+        }
+        tmp += k;
+    }
+
+    return 0;
+
+}
