@@ -1,5 +1,5 @@
 
-#line 3 "PowerEquationEasy.cpp"
+#line 3 "StringTransform.cpp"
 #include <cstdlib>
 #include <cctype>
 #include <cstring>
@@ -28,57 +28,21 @@ using namespace std;
 typedef long long LL;
 #define rep(it,s) for(__typeof((s).begin()) it=(s).begin();it!=(s).end();it++)
 
-long long f[24];
-bool vis[1000010];
-
-int gcd(int a, int b) {
-    if (b == 0) return a;
-    if (a < b) return gcd(b, a);
-    return gcd(b, a%b);
-}
-
-class PowerEquationEasy {
+class StringTransform {
 	public:
-	int count(int n) {
+	string isPossible(string s, string t) {
 
-        int mod = 1000000007;
-
-		long long res = (long long) n*n;
-
-		for (int i=1; i<32; i++) {
-            for (int j=1; j<=i; j++) {
-                for (int k=1; k<=i; k++) {
-                    f[i] += n*gcd(j, k)/max(j, k);
-                    f[i] %= res;
+		for (int i=0; i<s.length(); i++) {
+            for (int j=0; j<i; j++) {
+                if (t[i] == s[j]) {
+                    s[i] = t[i];
+                    break;
                 }
             }
 		}
 
-		int m = sqrt(n);
+		return s == t ? "Possible" : "Impossible";
 
-		for (int i=2; i*i<=n; i++) if (!vis[i]) {
-            long long x = i;
-            int k = 1;
-            int l = 0;
-            while (x<=n) {
-                k++;
-                vis[x] = true;
-                if (x > m) l++;
-                x *= i;
-            }
-            res += f[k-1];
-            res %= mod;
-
-            res -= (long long) l*f[1];
-            res %= mod;
-            res = (res + mod)%mod;
-		}
-
-		res += (long long)(n-m)*f[1];
-		res %= mod;
-		res = (res + mod)%mod;
-
-		return res;
 	}
 };
 
@@ -96,7 +60,7 @@ int main(int argc, char* argv[])
 {
 	if (argc == 1)
 	{
-		cout << "Testing PowerEquationEasy (500.0 points)" << endl << endl;
+		cout << "Testing StringTransform (500.0 points)" << endl << endl;
 		for (int i = 0; i < 20; i++)
 		{
 			ostringstream s; s << argv[0] << " " << i;
@@ -104,7 +68,7 @@ int main(int argc, char* argv[])
 			if (exitCode)
 				cout << "#" << i << ": Runtime Error" << endl;
 		}
-		int T = time(NULL)-1508017933;
+		int T = time(NULL)-1508098331;
 		double PT = T/60.0, TT = 75.0;
 		cout.setf(ios::fixed,ios::floatfield);
 		cout.precision(2);
@@ -115,58 +79,66 @@ int main(int argc, char* argv[])
 	else
 	{
 		int _tc; istringstream(argv[1]) >> _tc;
-		PowerEquationEasy _obj;
-		int _expected, _received;
+		StringTransform _obj;
+		string _expected, _received;
 		time_t _start = clock();
 		switch (_tc)
 		{
 			case 0:
 			{
-				int n = 2;
-				_expected = 6;
-				_received = _obj.count(n); break;
+				string s = "abc";
+				string t = "aba";
+				_expected = "Possible";
+				_received = _obj.isPossible(s, t); break;
 			}
 			case 1:
 			{
-				int n = 3;
-				_expected = 15;
-				_received = _obj.count(n); break;
+				string s = "abc";
+				string t = "bbc";
+				_expected = "Impossible";
+				_received = _obj.isPossible(s, t); break;
 			}
 			case 2:
 			{
-				int n = 100;
-				_expected = 21620;
-				_received = _obj.count(n); break;
+				string s = "topcoder";
+				string t = "topcoder";
+				_expected = "Possible";
+				_received = _obj.isPossible(s, t); break;
 			}
 			case 3:
 			{
-				int n = 22306;
-				_expected = 68467;
-				_received = _obj.count(n); break;
+				string s = "rdmcxnnbbe";
+				string t = "rdrrxrnxbe";
+				_expected = "Possible";
+				_received = _obj.isPossible(s, t); break;
 			}
 			case 4:
 			{
-				int n = 1;
-				_expected = 1;
-				_received = _obj.count(n); break;
+				string s = "rdmcxnnbbe";
+				string t = "rdqrxrnxbe";
+				_expected = "Impossible";
+				_received = _obj.isPossible(s, t); break;
 			}
 			/*case 5:
 			{
-				int n = ;
+				string s = ;
+				string t = ;
 				_expected = ;
-				_received = _obj.count(n); break;
+				_received = _obj.isPossible(s, t); break;
 			}*/
 			/*case 6:
 			{
-				int n = ;
+				string s = ;
+				string t = ;
 				_expected = ;
-				_received = _obj.count(n); break;
+				_received = _obj.isPossible(s, t); break;
 			}*/
 			/*case 7:
 			{
-				int n = ;
+				string s = ;
+				string t = ;
 				_expected = ;
-				_received = _obj.count(n); break;
+				_received = _obj.isPossible(s, t); break;
 			}*/
 			default: return 0;
 		}
@@ -178,8 +150,8 @@ int main(int argc, char* argv[])
 		else
 		{
 			cout << "#" << _tc << ": Failed (" << _elapsed << " secs)" << endl;
-			cout << "           Expected: " << _expected << endl;
-			cout << "           Received: " << _received << endl;
+			cout << "           Expected: " << "\"" << _expected << "\"" << endl;
+			cout << "           Received: " << "\"" << _received << "\"" << endl;
 		}
 	}
 }

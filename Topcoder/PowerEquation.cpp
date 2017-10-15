@@ -1,5 +1,5 @@
 
-#line 3 "PowerEquationEasy.cpp"
+#line 3 "PowerEquation.cpp"
 #include <cstdlib>
 #include <cctype>
 #include <cstring>
@@ -28,7 +28,7 @@ using namespace std;
 typedef long long LL;
 #define rep(it,s) for(__typeof((s).begin()) it=(s).begin();it!=(s).end();it++)
 
-long long f[24];
+long long f[32];
 bool vis[1000010];
 
 int gcd(int a, int b) {
@@ -37,18 +37,19 @@ int gcd(int a, int b) {
     return gcd(b, a%b);
 }
 
-class PowerEquationEasy {
+
+class PowerEquation {
 	public:
 	int count(int n) {
-
         int mod = 1000000007;
 
 		long long res = (long long) n*n;
+		res %= mod;
 
 		for (int i=1; i<32; i++) {
             for (int j=1; j<=i; j++) {
                 for (int k=1; k<=i; k++) {
-                    f[i] += n*gcd(j, k)/max(j, k);
+                    f[i] += (long long)n*gcd(j, k)/max(j, k);
                     f[i] %= res;
                 }
             }
@@ -56,14 +57,14 @@ class PowerEquationEasy {
 
 		int m = sqrt(n);
 
-		for (int i=2; i*i<=n; i++) if (!vis[i]) {
+		for (long long i=2; i<=m; i++) if (!vis[i]) {
             long long x = i;
             int k = 1;
             int l = 0;
             while (x<=n) {
                 k++;
-                vis[x] = true;
                 if (x > m) l++;
+                else vis[x] = true;
                 x *= i;
             }
             res += f[k-1];
@@ -96,7 +97,7 @@ int main(int argc, char* argv[])
 {
 	if (argc == 1)
 	{
-		cout << "Testing PowerEquationEasy (500.0 points)" << endl << endl;
+		cout << "Testing PowerEquation (250.0 points)" << endl << endl;
 		for (int i = 0; i < 20; i++)
 		{
 			ostringstream s; s << argv[0] << " " << i;
@@ -104,18 +105,18 @@ int main(int argc, char* argv[])
 			if (exitCode)
 				cout << "#" << i << ": Runtime Error" << endl;
 		}
-		int T = time(NULL)-1508017933;
+		int T = time(NULL)-1508065482;
 		double PT = T/60.0, TT = 75.0;
 		cout.setf(ios::fixed,ios::floatfield);
 		cout.precision(2);
 		cout << endl;
 		cout << "Time  : " << T/60 << " minutes " << T%60 << " secs" << endl;
-		cout << "Score : " << 500.0*(.3+(.7*TT*TT)/(10.0*PT*PT+TT*TT)) << " points" << endl;
+		cout << "Score : " << 250.0*(.3+(.7*TT*TT)/(10.0*PT*PT+TT*TT)) << " points" << endl;
 	}
 	else
 	{
 		int _tc; istringstream(argv[1]) >> _tc;
-		PowerEquationEasy _obj;
+		PowerEquation _obj;
 		int _expected, _received;
 		time_t _start = clock();
 		switch (_tc)
@@ -150,12 +151,12 @@ int main(int argc, char* argv[])
 				_expected = 1;
 				_received = _obj.count(n); break;
 			}
-			/*case 5:
+			case 5:
 			{
-				int n = ;
-				_expected = ;
+				int n = 671985798;
+				_expected = 722374399;
 				_received = _obj.count(n); break;
-			}*/
+			}
 			/*case 6:
 			{
 				int n = ;

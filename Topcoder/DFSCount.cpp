@@ -1,5 +1,5 @@
 
-#line 3 "DFSCountEasy.cpp"
+#line 3 "DFSCount.cpp"
 #include <cstdlib>
 #include <cctype>
 #include <cstring>
@@ -64,10 +64,9 @@ long long solve(int i, int mask) {
 
 }
 
-class DFSCountEasy {
+class DFSCount {
 	public:
 	long long count(vector <string> G) {
-
 		n = G.size();
 		for (int i=0; i<n; i++) for (int j=0; j<n; j++) if (G[i][j] == 'Y') {
             e[i].push_back(j);
@@ -83,7 +82,6 @@ class DFSCountEasy {
 		}
 
 		return res;
-
 	}
 };
 
@@ -101,7 +99,7 @@ int main(int argc, char* argv[])
 {
 	if (argc == 1)
 	{
-		cout << "Testing DFSCountEasy (1000.0 points)" << endl << endl;
+		cout << "Testing DFSCount (500.0 points)" << endl << endl;
 		for (int i = 0; i < 20; i++)
 		{
 			ostringstream s; s << argv[0] << " " << i;
@@ -109,18 +107,18 @@ int main(int argc, char* argv[])
 			if (exitCode)
 				cout << "#" << i << ": Runtime Error" << endl;
 		}
-		int T = time(NULL)-1508021388;
+		int T = time(NULL)-1508066351;
 		double PT = T/60.0, TT = 75.0;
 		cout.setf(ios::fixed,ios::floatfield);
 		cout.precision(2);
 		cout << endl;
 		cout << "Time  : " << T/60 << " minutes " << T%60 << " secs" << endl;
-		cout << "Score : " << 1000.0*(.3+(.7*TT*TT)/(10.0*PT*PT+TT*TT)) << " points" << endl;
+		cout << "Score : " << 500.0*(.3+(.7*TT*TT)/(10.0*PT*PT+TT*TT)) << " points" << endl;
 	}
 	else
 	{
 		int _tc; istringstream(argv[1]) >> _tc;
-		DFSCountEasy _obj;
+		DFSCount _obj;
 		long long _expected, _received;
 		time_t _start = clock();
 		switch (_tc)
@@ -153,20 +151,21 @@ int main(int argc, char* argv[])
 			}
 			case 3:
 			{
-				string G[] = {"NYYYYYYYYYYYY",
-				              "YNYYYYYYYYYYY",
-				              "YYNYYYYYYYYYY",
-				              "YYYNYYYYYYYYY",
-				              "YYYYNYYYYYYYY",
-				              "YYYYYNYYYYYYY",
-				              "YYYYYYNYYYYYY",
-				              "YYYYYYYNYYYYY",
-				              "YYYYYYYYNYYYY",
-				              "YYYYYYYYYNYYY",
-				              "YYYYYYYYYYNYY",
-				              "YYYYYYYYYYYNY",
-				              "YYYYYYYYYYYYN"};
-				_expected = 6227020800LL;
+				string G[] = {"NYYYYYYYYYYYYY",
+				              "YNYYYYYYYYYYYY",
+				              "YYNYYYYYYYYYYY",
+				              "YYYNYYYYYYYYYY",
+				              "YYYYNYYYYYYYYY",
+				              "YYYYYNYYYYYYYY",
+				              "YYYYYYNYYYYYYY",
+				              "YYYYYYYNYYYYYY",
+				              "YYYYYYYYNYYYYY",
+				              "YYYYYYYYYNYYYY",
+				              "YYYYYYYYYYNYYY",
+				              "YYYYYYYYYYYNYY",
+				              "YYYYYYYYYYYYNY",
+				              "YYYYYYYYYYYYYN"};
+				_expected = 87178291200LL;
 				_received = _obj.count(vector <string>(G, G+sizeof(G)/sizeof(string))); break;
 			}
 			case 4:
